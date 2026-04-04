@@ -26,7 +26,11 @@ export default function Login() {
       }
       navigate('/dashboard')
     } catch (err) {
-      setError(err.response?.data?.message || 'Credenciais inválidas. Tente novamente.')
+      if (!err.response) {
+        setError('Servidor offline. Verifique se o backend está rodando na porta 5000.')
+      } else {
+        setError(err.response?.data?.message || (isRegister ? 'Erro ao criar conta.' : 'Credenciais inválidas.'))
+      }
     } finally {
       setLoading(false)
     }
