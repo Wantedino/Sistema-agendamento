@@ -22,7 +22,6 @@ router.post('/', async (req, res) => {
   try {
     const { userId, serviceId, clientName, clientPhone, date, time } = req.body
 
-    // Valida se userId é um ObjectId válido
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(400).json({ message: 'userId inválido' })
     }
