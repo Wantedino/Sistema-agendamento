@@ -104,6 +104,10 @@ export default function Dashboard() {
           <MetricCard label="Receita est." value={`R$ ${metrics.revenue.toFixed(2)}`} color="#6366f1" />
         </div>
 
+        <span style={styles.reportLink} onClick={() => navigate('/reports')}>
+          Ver relatório completo do mês →
+        </span>
+
         <div style={styles.grid}>
           <section style={styles.section}>
             <h3 style={styles.sectionTitle}>
@@ -159,10 +163,10 @@ const styles = {
     cursor: 'pointer', fontWeight: 500, fontSize: '0.875rem', transition: 'all 0.15s',
   },
   metrics: { display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2rem' },
+  reportLink: { display: 'inline-block', color: '#4f46e5', fontSize: '0.875rem', cursor: 'pointer', marginBottom: '1.5rem', opacity: 0.8 },
   grid: { display: 'grid', gridTemplateColumns: '1fr 320px', gap: '2rem' },
   section: { background: '#fff', borderRadius: '12px', padding: '1.5rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' },
   sectionTitle: { marginTop: 0, color: '#1f2937', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' },
-  count: { background: '#e0e7ff', color: '#4f46e5', borderRadius: '999px', padding: '0.1rem 0.6rem', fontSize: '0.8rem', fontWeight: 700 },
   empty: { color: '#9ca3af', textAlign: 'center', padding: '2rem 0' },
   bookingLink: { marginTop: '1rem', padding: '0.75rem', background: '#f0f4f8', borderRadius: '8px' },
   code: { display: 'block', marginTop: '0.25rem', color: '#4f46e5', fontSize: '0.875rem', cursor: 'pointer' },
