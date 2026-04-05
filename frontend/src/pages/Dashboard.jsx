@@ -15,16 +15,16 @@ export default function Dashboard() {
   const today = new Date().toISOString().split('T')[0]
 
   useEffect(() => {
-    // Agendamentos de hoje para métricas e lista
-    api.get(`/appointments?date=${today}`)
-      .then(r => setAppointments(r.data))
+    Promise.all([
+      api.get(`/appointments?date=${today}`),
+      api.get('/appointments'),
+    ])
+      .then(([todayRes, allRes]) => {
+        setAppointments(todayRes.data)
+        setAllAppointments(allRes.data)
+      })
       .catch(console.error)
       .finally(() => setLoading(false))
-
-    // Todos os agendamentos para o calendário
-    api.get('/appointments')
-      .then(r => setAllAppointments(r.data))
-      .catch(console.error)
   }, [today])
 
   const metrics = {

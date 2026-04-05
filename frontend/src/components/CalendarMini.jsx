@@ -5,9 +5,12 @@ export default function CalendarMini({ appointments }) {
   const daysInMonth = new Date(year, month + 1, 0).getDate()
   const firstDay = new Date(year, month, 1).getDay()
 
-  // Dias com agendamentos
+  // Dias com agendamentos — parse manual para evitar bug de fuso UTC
   const daysWithAppts = new Set(
-    appointments.map(a => new Date(a.date).getDate())
+    appointments.map(a => {
+      const [, , day] = a.date.split('-')
+      return parseInt(day, 10)
+    })
   )
 
   const monthName = now.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })
