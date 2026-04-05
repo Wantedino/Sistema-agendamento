@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const auth = require('../middleware/auth')
 const Appointment = require('../models/Appointment')
+const mongoose = require('mongoose')
 
 // GET /api/appointments?date=YYYY-MM-DD
 router.get('/', auth, async (req, res) => {
@@ -20,11 +21,29 @@ router.get('/', auth, async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const { userId, serviceId, clientName, clientPhone, date, time } = req.body
+
+    // Valida se userId é um ObjectId válido
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: 'userId inválido' })
+    }
+
     // Verifica conflito de horário
-    const conflict = await Appointment.findOne({ userId, date, time, status: { $ne: 'cancelled' } })
+    const conflict = await Appointment.findOne({
+      userId: new mongoose.Types.ObjectId(userId),
+      date,
+      time,
+      status: { $ne: 'cancelled' },
+    })
     if (conflict) return res.status(409).json({ message: 'Horário já ocupado' })
 
-    const appointment = await Appointment.create({ userId, serviceId, clientName, clientPhone, date, time })
+    const appointment = await Appointment.create({
+      userId: new mongoose.Types.ObjectId(userId),
+      serviceId,
+      clientName,
+      clientPhone,
+      date,
+      time,
+    })
     res.status(201).json(appointment)
   } catch (err) {
     res.status(400).json({ message: err.message })

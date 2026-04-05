@@ -10,14 +10,21 @@ export default function Dashboard() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [appointments, setAppointments] = useState([])
+  const [allAppointments, setAllAppointments] = useState([])
   const [loading, setLoading] = useState(true)
   const today = new Date().toISOString().split('T')[0]
 
   useEffect(() => {
+    // Agendamentos de hoje para métricas e lista
     api.get(`/appointments?date=${today}`)
       .then(r => setAppointments(r.data))
       .catch(console.error)
       .finally(() => setLoading(false))
+
+    // Todos os agendamentos para o calendário
+    api.get('/appointments')
+      .then(r => setAllAppointments(r.data))
+      .catch(console.error)
   }, [today])
 
   const metrics = {
@@ -71,7 +78,7 @@ export default function Dashboard() {
 
           <section style={styles.section}>
             <h3 style={styles.sectionTitle}>Calendário</h3>
-            <CalendarMini appointments={appointments} />
+            <CalendarMini appointments={allAppointments} />
             <div style={styles.bookingLink}>
               <p style={{ color: '#6b7280', fontSize: '0.875rem' }}>Link de agendamento:</p>
               <code style={styles.code}>/book/{user?._id}</code>
