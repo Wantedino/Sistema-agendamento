@@ -66,6 +66,7 @@ export default function Dashboard() {
         <h1 style={styles.logo}>Agenda Pro</h1>
         <nav style={styles.nav}>
           <span style={styles.navLink} onClick={() => navigate('/services')}>Serviços</span>
+          <span style={styles.navLink} onClick={() => navigate('/reports')}>Relatórios</span>
           <span style={styles.navLink} onClick={() => { logout(); navigate('/login') }}>Sair</span>
         </nav>
       </header>
